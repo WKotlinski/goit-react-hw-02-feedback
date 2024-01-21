@@ -1,36 +1,8 @@
 // Krok 4: Komponent Notification
 import { Component } from "react";
-const Notification = ({ message }) => {
-  return <p>{message}</p>;
-};
-
-const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
-  return (
-    <>
-      <h2>Statistics</h2>
-      {total > 0 ? (
-        <div>
-          <p>Good: {good}</p>
-          <p>Neutral: {neutral}</p>
-          <p>Bad: {bad}</p>
-          <p>Total: {total}</p>
-          <p>Positive feedback: {positivePercentage}%</p>
-        </div>
-      ) : (
-        <Notification message="There is no feedback" />
-      )}
-    </>
-  );
-};
-
-const Section = ({ title, children }) => {
-  return (
-    <div>
-      <h1>{title}</h1>
-      {children}
-    </div>
-  );
-};
+import Statistics from "./statistic";
+import Section from "./section";
+import FeedbackOptions from "./option";
 
 export default class Feeback extends Component {
   state = {
@@ -44,7 +16,7 @@ export default class Feeback extends Component {
     return good + neutral + bad;
   };
 
-  countPositiveFeedbackPercentage = () => {
+  countPositiveFeedbackPer = () => {
     const { good } = this.state;
     const total = this.countTotalFeedback();
     return total > 0 ? Math.round((good / total) * 100) : 0;
@@ -59,7 +31,7 @@ export default class Feeback extends Component {
   render() {
     const { good, neutral, bad } = this.state;
     const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
+    const positivePercentage = this.countPositiveFeedbackPer();
 
     return (
       <div>
@@ -83,16 +55,3 @@ export default class Feeback extends Component {
     );
   }
 }
-
-// Krok 3: Komponent FeedbackOptions
-const FeedbackOptions = ({ options, onLeaveFeedback }) => {
-  return (
-    <div>
-      {options.map((option) => (
-        <button key={option} onClick={() => onLeaveFeedback(option)}>
-          {option}
-        </button>
-      ))}
-    </div>
-  );
-};
